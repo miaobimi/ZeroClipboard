@@ -1,0 +1,31 @@
+1.引入 
+<script type="text/javascript" src="ZeroClipboard.js"></script>
+
+2. 页面添加按钮
+<input id="copy" class="xxx" value="点击复制文本"/>
+
+3.js文件
+    var swfUrl = './ZeroClipboard.swf';//路径不能错
+	  var clip = new ZeroClipboard.Client();
+		ZeroClipboard.setMoviePath( swfUrl );
+		clip.setHandCursor( true );
+		
+		//考虑到可能要复制多个列表 所以这里用class绑定
+		$('.xxx').bind('mouseover',function(){
+			var code = ' 哈哈哈'; //需要复制的文本
+			if(code !== ''){
+				clip.setText(code);
+				clip.glue("copy"); //注册点击复制按钮的id 不要用class
+				//鼠标移上按钮再注册事件
+				clip.addEventListener('complete', function (client, text) {
+			        layer.alert( "恭喜复制成功");
+			        clip.hide();
+			    });
+			    
+			    //移出按钮 立即注销事件
+				clip.addEventListener('mouseOut', function (client, text) {
+			        clip.hide();//这是去掉swf
+			    });
+
+			}
+		});
